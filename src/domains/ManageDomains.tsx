@@ -51,7 +51,7 @@ export const ManageDomains: FC<ManageDomainsProps> = (
             <tr>{headers.map((column, index) => <th key={index}>{column}</th>)}</tr>
           </thead>
           <tbody>
-            {domains.length < 1 && <tr><td colSpan={headers.length} className="text-center">No results found</td></tr>}
+            {domains.length < 1 && <tr><td colSpan={headers.length} className="text-center">Keine Ergebnisse gefunden</td></tr>}
             {domains.map((domain) => (
               <DomainRow
                 key={domain.domain}

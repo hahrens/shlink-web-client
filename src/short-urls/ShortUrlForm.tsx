@@ -22,6 +22,7 @@ import { handleEventPreventingDefault, hasValue } from '../utils/utils';
 import type { DeviceLongUrls, ShortUrlData } from './data';
 import { ShortUrlFormCheckboxGroup } from './helpers/ShortUrlFormCheckboxGroup';
 import { UseExistingIfFoundInfoIcon } from './UseExistingIfFoundInfoIcon';
+import { useTranslation } from 'react-i18next';
 import './ShortUrlForm.scss';
 
 export type Mode = 'create' | 'create-basic' | 'edit';
@@ -44,6 +45,7 @@ export const ShortUrlForm = (
   TagsSelector: FC<TagsSelectorProps>,
   DomainSelector: FC<DomainSelectorProps>,
 ): FC<ShortUrlFormProps> => ({ mode, saving, onSave, initialState, selectedServer }) => {
+  const { t } = useTranslation();
   const [shortUrlData, setShortUrlData] = useState(initialState);
   const reset = () => setShortUrlData(initialState);
   const supportsDeviceLongUrls = useFeature('deviceLongUrls', selectedServer);
@@ -121,14 +123,14 @@ export const ShortUrlForm = (
         <Input
           bsSize="lg"
           type="url"
-          placeholder="URL to be shortened"
+          placeholder={t('URL to be shortened')}
           required
           value={shortUrlData.longUrl}
           onChange={(e) => setShortUrlData({ ...shortUrlData, longUrl: e.target.value })}
         />
       </FormGroup>
       <Row>
-        {isBasicMode && renderOptionalInput('customSlug', 'Custom slug', 'text', { bsSize: 'lg' }, { className: 'col-lg-6' })}
+        {isBasicMode && renderOptionalInput('customSlug', t('Custom slug'), 'text', { bsSize: 'lg' }, { className: 'col-lg-6' })}
         <div className={isBasicMode ? 'col-lg-6 mb-3' : 'col-12'}>
           <TagsSelector selectedTags={shortUrlData.tags ?? []} onChange={changeTags} />
         </div>
@@ -147,7 +149,7 @@ export const ShortUrlForm = (
             <div
               className={classNames('mb-3', { 'col-sm-6': supportsDeviceLongUrls, 'col-12': !supportsDeviceLongUrls })}
             >
-              <SimpleCard title="Main options" className="mb-3">
+              <SimpleCard title={t('Main options')} className="mb-3">
                 {basicComponents}
               </SimpleCard>
             </div>
@@ -168,8 +170,8 @@ export const ShortUrlForm = (
 
           <Row>
             <div className="col-sm-6 mb-3">
-              <SimpleCard title="Customize the short URL">
-                {renderOptionalInput('title', 'Title', 'text', {
+              <SimpleCard title={t('Customize the short URL')}>
+                {renderOptionalInput('title', t('Title'), 'text', {
                   onChange: ({ target }: ChangeEvent<HTMLInputElement>) => setShortUrlData({
                     ...shortUrlData,
                     title: setResettableValue(target.value, initialState.title),
@@ -179,12 +181,12 @@ export const ShortUrlForm = (
                   <>
                     <Row>
                       <div className="col-lg-6">
-                        {renderOptionalInput('customSlug', 'Custom slug', 'text', {
+                        {renderOptionalInput('customSlug', t('Custom slug'), 'text', {
                           disabled: hasValue(shortUrlData.shortCodeLength),
                         })}
                       </div>
                       <div className="col-lg-6">
-                        {renderOptionalInput('shortCodeLength', 'Short code length', 'number', {
+                        {renderOptionalInput('shortCodeLength', t('Short code length'), 'number', {
                           min: 4,
                           disabled: hasValue(shortUrlData.customSlug),
                         })}
@@ -200,12 +202,12 @@ export const ShortUrlForm = (
             </div>
 
             <div className="col-sm-6 mb-3">
-              <SimpleCard title="Limit access to the short URL">
-                {renderOptionalInput('maxVisits', 'Maximum number of visits allowed', 'number', { min: 1 })}
+              <SimpleCard title={t('Limit access to the short URL')}>
+                {renderOptionalInput('maxVisits', t('Maximum number of visits allowed'), 'number', { min: 1 })}
                 <div className="mb-3">
-                  {renderDateInput('validSince', 'Enabled since...', { maxDate: shortUrlData.validUntil ? toDate(shortUrlData.validUntil) : undefined })}
+                  {renderDateInput('validSince', t('Enabled since...'), { maxDate: shortUrlData.validUntil ? toDate(shortUrlData.validUntil) : undefined })}
                 </div>
-                {renderDateInput('validUntil', 'Enabled until...', { minDate: shortUrlData.validSince ? toDate(shortUrlData.validSince) : undefined })}
+                {renderDateInput('validUntil', t('Enabled until...'), { minDate: shortUrlData.validSince ? toDate(shortUrlData.validSince) : undefined })}
               </SimpleCard>
             </div>
           </Row>
@@ -214,11 +216,11 @@ export const ShortUrlForm = (
             <div className="col-sm-6 mb-3">
               <SimpleCard title="Extra checks">
                 <ShortUrlFormCheckboxGroup
-                  infoTooltip="If checked, Shlink will try to reach the long URL, failing in case it's not publicly accessible."
+                  infoTooltip={t('If checked, Shlink will try to reach the long URL, failing in case it\'s not publicly accessible.')}
                   checked={shortUrlData.validateUrl}
                   onChange={(validateUrl) => setShortUrlData({ ...shortUrlData, validateUrl })}
                 >
-                  Validate URL
+                  {t('Validate URL')}
                 </ShortUrlFormCheckboxGroup>
                 {!isEdit && (
                   <p>
@@ -228,7 +230,7 @@ export const ShortUrlForm = (
                       checked={shortUrlData.findIfExists}
                       onChange={(findIfExists) => setShortUrlData({ ...shortUrlData, findIfExists })}
                     >
-                      Use existing URL if found
+                      {t('Use existing URL if found')}
                     </Checkbox>
                     <UseExistingIfFoundInfoIcon />
                   </p>
@@ -236,21 +238,21 @@ export const ShortUrlForm = (
               </SimpleCard>
             </div>
             <div className="col-sm-6 mb-3">
-              <SimpleCard title="Configure behavior">
+              <SimpleCard title={t('Configure behavior')}>
                 <ShortUrlFormCheckboxGroup
-                  infoTooltip="This short URL will be included in the robots.txt for your Shlink instance, allowing web crawlers (like Google) to index it."
+                  infoTooltip={t('This short URL will be included in the robots.txt for your Shlink instance, allowing web crawlers (like Google) to index it.')}
                   checked={shortUrlData.crawlable}
                   onChange={(crawlable) => setShortUrlData({ ...shortUrlData, crawlable })}
                 >
-                  Make it crawlable
+                  {t('Make it crawlable')}
                 </ShortUrlFormCheckboxGroup>
                 {showForwardQueryControl && (
                   <ShortUrlFormCheckboxGroup
-                    infoTooltip="When this short URL is visited, any query params appended to it will be forwarded to the long URL."
+                    infoTooltip={t('When this short URL is visited, any query params appended to it will be forwarded to the long URL.')}
                     checked={shortUrlData.forwardQuery}
                     onChange={(forwardQuery) => setShortUrlData({ ...shortUrlData, forwardQuery })}
                   >
-                    Forward query params on redirect
+                    {t('Forward query params on redirect')}
                   </ShortUrlFormCheckboxGroup>
                 )}
               </SimpleCard>
@@ -266,7 +268,7 @@ export const ShortUrlForm = (
           disabled={saving || isEmpty(shortUrlData.longUrl)}
           className="btn-xs-block"
         >
-          {saving ? 'Saving...' : 'Save'}
+          {saving ? t('Saving...') : t('Save')}
         </Button>
       </div>
     </form>

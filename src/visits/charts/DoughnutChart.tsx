@@ -61,6 +61,7 @@ export const DoughnutChart: FC<DoughnutChartProps> = memo(({ stats }) => {
           data={chartData as any}
           options={options as any}
           ref={(element) => {
+            // @ts-ignore
             setChartRef(element ?? undefined);
           }}
         />

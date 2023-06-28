@@ -10,6 +10,7 @@ import { fixLeafletIcons } from './utils/helpers/leaflet';
 import './index.scss';
 import 'leaflet/dist/leaflet.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import './translation/index';
 
 // This overwrites icons used for leaflet maps, fixing some issues caused by webpack while processing the CSS
 fixLeafletIcons();

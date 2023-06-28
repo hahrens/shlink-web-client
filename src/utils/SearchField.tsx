@@ -41,7 +41,7 @@ export const SearchField = ({ onChange, className, large = true, noBorder = fals
           'form-control-lg': large,
           'search-field__input--no-border': noBorder,
         })}
-        placeholder="Search..."
+        placeholder="Suche..."
         value={searchTerm}
         onChange={(e) => searchTermChanged(e.target.value)}
       />

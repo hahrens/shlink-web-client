@@ -8,6 +8,7 @@ import { Card, Row } from 'reactstrap';
 import type { ServersMap } from '../servers/data';
 import { ServersListGroup } from '../servers/ServersListGroup';
 import { ShlinkLogo } from './img/ShlinkLogo';
+import { useTranslation } from 'react-i18next';
 import './Home.scss';
 
 interface HomeProps {
@@ -15,6 +16,7 @@ interface HomeProps {
 }
 
 export const Home = ({ servers }: HomeProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const serversList = values(servers);
   const hasServers = !isEmpty(serversList);
@@ -38,15 +40,15 @@ export const Home = ({ servers }: HomeProps) => {
           </div>
           <div className="col-md-7 home__servers-container">
             <div className="home__title-wrapper">
-              <h1 className="home__title">Welcome!</h1>
+              <h1 className="home__title">{t('Welcome!')}</h1>
             </div>
             <ServersListGroup embedded servers={serversList}>
               {!hasServers && (
                 <div className="p-4 text-center">
-                  <p className="mb-5">This application will help you manage your Shlink servers.</p>
+                  <p className="mb-5">{t('This application will help you manage your Shlink servers.')}</p>
                   <p>
                     <Link to="/server/create" className="btn btn-outline-primary btn-lg me-2">
-                      <FontAwesomeIcon icon={faPlus} /> <span className="ms-1">Add a server</span>
+                      <FontAwesomeIcon icon={faPlus} /> <span className="ms-1">{t('Add a server')}</span>
                     </Link>
                   </p>
                   <p className="mb-0 mt-5">

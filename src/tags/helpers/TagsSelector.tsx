@@ -6,6 +6,7 @@ import type { ColorGenerator } from '../../utils/services/ColorGenerator';
 import type { TagsList } from '../reducers/tagsList';
 import { Tag } from './Tag';
 import { TagBullet } from './TagBullet';
+import { useTranslation } from 'react-i18next';
 
 export interface TagsSelectorProps {
   selectedTags: string[];
@@ -25,6 +26,7 @@ const toComponentTag = (tag: string) => ({ id: tag, name: tag });
 export const TagsSelector = (colorGenerator: ColorGenerator) => (
   { selectedTags, onChange, placeholder, listTags, tagsList, settings, allowNew = true }: TagsSelectorConnectProps,
 ) => {
+  const { t } = useTranslation();
   useEffect(() => {
     listTags();
   }, []);
@@ -47,7 +49,7 @@ export const TagsSelector = (colorGenerator: ColorGenerator) => (
       suggestionComponent={ReactTagsSuggestion}
       allowNew={allowNew}
       addOnBlur
-      placeholderText={placeholder ?? 'Add tags to the URL'}
+      placeholderText={placeholder ?? t('Add tags to the URL')}
       minQueryLength={1}
       delimiters={['Enter', 'Tab', ',']}
       suggestionsTransform={

@@ -18,6 +18,7 @@ import type { SelectedServer } from './data';
 import { getServerId } from './data';
 import { HighlightCard } from './helpers/HighlightCard';
 import { VisitsHighlightCard } from './helpers/VisitsHighlightCard';
+import { useTranslation } from 'react-i18next';
 
 interface OverviewConnectProps {
   shortUrlsList: ShortUrlsListState;
@@ -43,6 +44,7 @@ export const Overview = (
   visitsOverview,
   settings: { visits },
 }: OverviewConnectProps) => {
+  const { t } = useTranslation();
   const { loading, shortUrls } = shortUrlsList;
   const { loading: loadingTags } = tagsList;
   const { loading: loadingVisits, nonOrphanVisits, orphanVisits } = visitsOverview;
@@ -61,7 +63,7 @@ export const Overview = (
       <Row>
         <div className="col-lg-6 col-xl-3 mb-3">
           <VisitsHighlightCard
-            title="Visits"
+            title={t('Visits')}
             link={linkToNonOrphanVisits ? `/server/${serverId}/non-orphan-visits` : undefined}
             excludeBots={visits?.excludeBots ?? false}
             loading={loadingVisits}
@@ -70,7 +72,7 @@ export const Overview = (
         </div>
         <div className="col-lg-6 col-xl-3 mb-3">
           <VisitsHighlightCard
-            title="Orphan visits"
+            title={t('Orphan visits')}
             link={`/server/${serverId}/orphan-visits`}
             excludeBots={visits?.excludeBots ?? false}
             loading={loadingVisits}
@@ -78,12 +80,12 @@ export const Overview = (
           />
         </div>
         <div className="col-lg-6 col-xl-3 mb-3">
-          <HighlightCard title="Short URLs" link={`/server/${serverId}/list-short-urls/1`}>
+          <HighlightCard title={t('Short URLs')} link={`/server/${serverId}/list-short-urls/1`}>
             {loading ? 'Loading...' : prettify(shortUrls?.pagination.totalItems ?? 0)}
           </HighlightCard>
         </div>
         <div className="col-lg-6 col-xl-3 mb-3">
-          <HighlightCard title="Tags" link={`/server/${serverId}/manage-tags`}>
+          <HighlightCard title={t('Tags')} link={`/server/${serverId}/manage-tags`}>
             {loadingTags ? 'Loading...' : prettify(tagsList.tags.length)}
           </HighlightCard>
         </div>
@@ -91,9 +93,9 @@ export const Overview = (
 
       <Card className="mb-3">
         <CardHeader>
-          <span className="d-sm-none">Create a short URL</span>
-          <h5 className="d-none d-sm-inline">Create a short URL</h5>
-          <Link className="float-end" to={`/server/${serverId}/create-short-url`}>Advanced options &raquo;</Link>
+          <span className="d-sm-none">{t('Create a short URL')}</span>
+          <h5 className="d-none d-sm-inline">{t('Create a short URL')}</h5>
+          <Link className="float-end" to={`/server/${serverId}/create-short-url`}>{t('Advanced options')} &raquo;</Link>
         </CardHeader>
         <CardBody>
           <CreateShortUrl basicMode />
@@ -101,9 +103,9 @@ export const Overview = (
       </Card>
       <Card>
         <CardHeader>
-          <span className="d-sm-none">Recently created URLs</span>
-          <h5 className="d-none d-sm-inline">Recently created URLs</h5>
-          <Link className="float-end" to={`/server/${serverId}/list-short-urls/1`}>See all &raquo;</Link>
+          <span className="d-sm-none">{t('Recently created URLs')}</span>
+          <h5 className="d-none d-sm-inline">{t('Recently created URLs')}</h5>
+          <Link className="float-end" to={`/server/${serverId}/list-short-urls/1`}>{t('See all')} &raquo;</Link>
         </CardHeader>
         <CardBody>
           <ShortUrlsTable

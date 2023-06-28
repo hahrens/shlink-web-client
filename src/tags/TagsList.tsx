@@ -17,6 +17,7 @@ import type { TagsOrder, TagsOrderableFields } from './data/TagsListChildrenProp
 import { TAGS_ORDERABLE_FIELDS } from './data/TagsListChildrenProps';
 import type { TagsList as TagsListState } from './reducers/tagsList';
 import type { TagsTableProps } from './TagsTable';
+import { useTranslation } from 'react-i18next';
 
 export interface TagsListProps {
   filterTags: (searchTerm: string) => void;
@@ -29,6 +30,7 @@ export interface TagsListProps {
 export const TagsList = (TagsTable: FC<TagsTableProps>) => boundToMercureHub((
   { filterTags, forceListTags, tagsList, selectedServer, settings }: TagsListProps,
 ) => {
+  const { t } = useTranslation();
   const [order, setOrder] = useState<TagsOrder>(settings.tags?.defaultOrdering ?? {});
   const resolveSortedTags = pipe(
     () => tagsList.filteredTags.map((tag): SimplifiedTag => {
@@ -70,7 +72,7 @@ export const TagsList = (TagsTable: FC<TagsTableProps>) => boundToMercureHub((
 
   const renderContent = () => {
     if (tagsList.filteredTags.length < 1) {
-      return <Message>No tags found</Message>;
+      return <Message>{t('No tags found')}</Message>;
     }
 
     const sortedTags = resolveSortedTags();

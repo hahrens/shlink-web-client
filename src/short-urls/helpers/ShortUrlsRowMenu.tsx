@@ -12,6 +12,7 @@ import { useToggle } from '../../utils/helpers/hooks';
 import { RowDropdownBtn } from '../../utils/RowDropdownBtn';
 import type { ShortUrl, ShortUrlModalProps } from '../data';
 import { ShortUrlDetailLink } from './ShortUrlDetailLink';
+import { useTranslation } from 'react-i18next';
 
 interface ShortUrlsRowMenuProps {
   selectedServer: SelectedServer;
@@ -23,21 +24,22 @@ export const ShortUrlsRowMenu = (
   DeleteShortUrlModal: ShortUrlModal,
   QrCodeModal: ShortUrlModal,
 ) => ({ shortUrl, selectedServer }: ShortUrlsRowMenuProps) => {
+  const { t } = useTranslation();
   const [isQrModalOpen,, openQrCodeModal, closeQrCodeModal] = useToggle();
   const [isDeleteModalOpen,, openDeleteModal, closeDeleteModal] = useToggle();
 
   return (
     <RowDropdownBtn minWidth={190}>
       <DropdownItem tag={ShortUrlDetailLink} selectedServer={selectedServer} shortUrl={shortUrl} suffix="visits">
-        <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> Visit stats
+        <FontAwesomeIcon icon={pieChartIcon} fixedWidth /> {t('Visit stats')}
       </DropdownItem>
 
       <DropdownItem tag={ShortUrlDetailLink} selectedServer={selectedServer} shortUrl={shortUrl} suffix="edit">
-        <FontAwesomeIcon icon={editIcon} fixedWidth /> Edit short URL
+        <FontAwesomeIcon icon={editIcon} fixedWidth /> {t('Edit short URL')}
       </DropdownItem>
 
       <DropdownItem onClick={openQrCodeModal}>
-        <FontAwesomeIcon icon={qrIcon} fixedWidth /> QR code
+        <FontAwesomeIcon icon={qrIcon} fixedWidth /> {t('QR code')}
       </DropdownItem>
       <QrCodeModal shortUrl={shortUrl} isOpen={isQrModalOpen} toggle={closeQrCodeModal} />
 

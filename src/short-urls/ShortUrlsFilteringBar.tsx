@@ -20,6 +20,7 @@ import { SHORT_URLS_ORDERABLE_FIELDS } from './data';
 import type { ExportShortUrlsBtnProps } from './helpers/ExportShortUrlsBtn';
 import { useShortUrlsQuery } from './helpers/hooks';
 import { ShortUrlsFilterDropdown } from './helpers/ShortUrlsFilterDropdown';
+import { useTranslation } from 'react-i18next';
 import './ShortUrlsFilteringBar.scss';
 
 interface ShortUrlsFilteringProps {
@@ -35,6 +36,7 @@ export const ShortUrlsFilteringBar = (
   ExportShortUrlsBtn: FC<ExportShortUrlsBtnProps>,
   TagsSelector: FC<TagsSelectorProps>,
 ): FC<ShortUrlsFilteringProps> => ({ selectedServer, className, shortUrlsAmount, order, handleOrderBy, settings }) => {
+  const { t } = useTranslation();
   const [filter, toFirstPage] = useShortUrlsQuery();
   const {
     search,
@@ -71,7 +73,7 @@ export const ShortUrlsFilteringBar = (
       <SearchField initialValue={search} onChange={setSearch} />
 
       <InputGroup className="mt-3">
-        <TagsSelector allowNew={false} placeholder="With tags..." selectedTags={tags} onChange={changeTagSelection} />
+        <TagsSelector allowNew={false} placeholder={t('Mit Schlagwörtern...')} selectedTags={tags} onChange={changeTagSelection} />
         {canChangeTagsMode && tags.length > 1 && (
           <>
             <Button outline color="secondary" onClick={toggleTagsMode} id="tagsModeBtn" aria-label="Change tags mode">
@@ -89,7 +91,7 @@ export const ShortUrlsFilteringBar = (
           <div className="d-md-flex">
             <div className="flex-fill">
               <DateRangeSelector
-                defaultText="All short URLs"
+                defaultText={t('All short URLs')}
                 initialDateRange={datesToDateRange(startDate, endDate)}
                 onDatesChange={setDates}
               />

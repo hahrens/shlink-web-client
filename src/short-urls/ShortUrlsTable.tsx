@@ -5,6 +5,7 @@ import type { SelectedServer } from '../servers/data';
 import type { ShortUrlsOrderableFields } from './data';
 import type { ShortUrlsRowType } from './helpers/ShortUrlsRow';
 import type { ShortUrlsList as ShortUrlsListState } from './reducers/shortUrlsList';
+import { useTranslation } from 'react-i18next';
 import './ShortUrlsTable.scss';
 
 interface ShortUrlsTableProps {
@@ -24,6 +25,7 @@ export const ShortUrlsTable = (ShortUrlsRow: ShortUrlsRowType) => ({
   selectedServer,
   className,
 }: ShortUrlsTableProps) => {
+  const { t } = useTranslation();
   const { error, loading, shortUrls } = shortUrlsList;
   const actionableFieldClasses = classNames({ 'short-urls-table__header-cell--with-action': !!orderByColumn });
   const orderableColumnsClasses = classNames('short-urls-table__header-cell', actionableFieldClasses);
@@ -34,18 +36,18 @@ export const ShortUrlsTable = (ShortUrlsRow: ShortUrlsRowType) => ({
       return (
         <tr>
           <td colSpan={6} className="text-center table-danger text-dark">
-            Something went wrong while loading short URLs :(
+            {t('Something went wrong while loading short URLs :(')}
           </td>
         </tr>
       );
     }
 
     if (loading) {
-      return <tr><td colSpan={6} className="text-center">Loading...</td></tr>;
+      return <tr><td colSpan={6} className="text-center">{t('Loading...')}</td></tr>;
     }
 
     if (!loading && isEmpty(shortUrls?.data)) {
-      return <tr><td colSpan={6} className="text-center">No results found</td></tr>;
+      return <tr><td colSpan={6} className="text-center">{t('No results found')}</td></tr>;
     }
 
     return shortUrls?.data.map((shortUrl) => (
@@ -63,23 +65,23 @@ export const ShortUrlsTable = (ShortUrlsRow: ShortUrlsRowType) => ({
       <thead className="responsive-table__header short-urls-table__header">
         <tr>
           <th className={orderableColumnsClasses} onClick={orderByColumn?.('dateCreated')}>
-            Created at {renderOrderIcon?.('dateCreated')}
+            {t('Created at')} {renderOrderIcon?.('dateCreated')}
           </th>
           <th className={orderableColumnsClasses} onClick={orderByColumn?.('shortCode')}>
-            Short URL {renderOrderIcon?.('shortCode')}
+            {t('Short URL')} {renderOrderIcon?.('shortCode')}
           </th>
           <th className="short-urls-table__header-cell">
             <span className={actionableFieldClasses} onClick={orderByColumn?.('title')}>
-              Title {renderOrderIcon?.('title')}
+            {t('Title')} {renderOrderIcon?.('title')}
             </span>
             &nbsp;&nbsp;/&nbsp;&nbsp;
             <span className={actionableFieldClasses} onClick={orderByColumn?.('longUrl')}>
-              <span className="indivisible">Long URL</span> {renderOrderIcon?.('longUrl')}
+              <span className="indivisible">{t('Long URL')}</span> {renderOrderIcon?.('longUrl')}
             </span>
           </th>
           <th className="short-urls-table__header-cell">Tags</th>
           <th className={orderableColumnsClasses} onClick={orderByColumn?.('visits')}>
-            <span className="indivisible">Visits {renderOrderIcon?.('visits')}</span>
+            <span className="indivisible">{t('Visits')} {renderOrderIcon?.('visits')}</span>
           </th>
           <th className="short-urls-table__header-cell" colSpan={2} />
         </tr>

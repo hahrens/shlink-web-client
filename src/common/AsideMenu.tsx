@@ -14,6 +14,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import type { SelectedServer } from '../servers/data';
 import { isServerWithId } from '../servers/data';
 import type { DeleteServerButtonProps } from '../servers/DeleteServerButton';
+import { useTranslation } from 'react-i18next';
 import './AsideMenu.scss';
 
 export interface AsideMenuProps {
@@ -39,6 +40,7 @@ const AsideMenuItem: FC<AsideMenuItemProps> = ({ children, to, className, ...res
 export const AsideMenu = (DeleteServerButton: FC<DeleteServerButtonProps>) => (
   { selectedServer, showOnMobile = false }: AsideMenuProps,
 ) => {
+  const { t } = useTranslation();
   const hasId = isServerWithId(selectedServer);
   const serverId = hasId ? selectedServer.id : '';
   const { pathname } = useLocation();
@@ -52,30 +54,30 @@ export const AsideMenu = (DeleteServerButton: FC<DeleteServerButtonProps>) => (
       <nav className="nav flex-column aside-menu__nav">
         <AsideMenuItem to={buildPath('/overview')}>
           <FontAwesomeIcon fixedWidth icon={overviewIcon} />
-          <span className="aside-menu__item-text">Overview</span>
+          <span className="aside-menu__item-text">{t('Overview')}</span>
         </AsideMenuItem>
         <AsideMenuItem
           to={buildPath('/list-short-urls/1')}
           className={classNames({ 'aside-menu__item--selected': pathname.match('/list-short-urls') !== null })}
         >
           <FontAwesomeIcon fixedWidth icon={listIcon} />
-          <span className="aside-menu__item-text">List short URLs</span>
+          <span className="aside-menu__item-text">{t('List short URLs')}</span>
         </AsideMenuItem>
         <AsideMenuItem to={buildPath('/create-short-url')}>
           <FontAwesomeIcon fixedWidth icon={createIcon} flip="horizontal" />
-          <span className="aside-menu__item-text">Create short URL</span>
+          <span className="aside-menu__item-text">{t('Create short URL')}</span>
         </AsideMenuItem>
         <AsideMenuItem to={buildPath('/manage-tags')}>
           <FontAwesomeIcon fixedWidth icon={tagsIcon} />
-          <span className="aside-menu__item-text">Manage tags</span>
+          <span className="aside-menu__item-text">{t('Manage tags')}</span>
         </AsideMenuItem>
         <AsideMenuItem to={buildPath('/manage-domains')}>
           <FontAwesomeIcon fixedWidth icon={domainsIcon} />
-          <span className="aside-menu__item-text">Manage domains</span>
+          <span className="aside-menu__item-text">{t('Manage domains')}</span>
         </AsideMenuItem>
         <AsideMenuItem to={buildPath('/edit')} className="aside-menu__item--push">
           <FontAwesomeIcon fixedWidth icon={editIcon} />
-          <span className="aside-menu__item-text">Edit this server</span>
+          <span className="aside-menu__item-text">{t('Edit this server')}</span>
         </AsideMenuItem>
         {hasId && (
           <DeleteServerButton

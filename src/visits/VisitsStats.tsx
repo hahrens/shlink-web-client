@@ -29,6 +29,7 @@ import type { NormalizedOrphanVisit, NormalizedVisit, VisitsParams } from './typ
 import type { HighlightableProps } from './types/helpers';
 import { highlightedVisitsToStats } from './types/helpers';
 import { VisitsTable } from './VisitsTable';
+import { useTranslation } from 'react-i18next';
 
 export type VisitsStatsProps = PropsWithChildren<{
   getVisits: (params: VisitsParams, doIntervalFallback?: boolean) => void;
@@ -65,6 +66,7 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
   exportCsv,
   isOrphanVisits = false,
 }) => {
+  const { t } = useTranslation();
   const { visits, loading, loadingLarge, error, errorData, progress, fallbackInterval } = visitsInfo;
   const [{ dateRange, visitsFilter }, updateFiltering] = useVisitsQuery();
   const setDates = pipe(
@@ -150,7 +152,7 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
     }
 
     if (isEmpty(visits)) {
-      return <Message>There are no visits matching current filter</Message>;
+      return <Message>{t('There are no visits matching current filter')}</Message>;
     }
 
     return (
@@ -170,7 +172,7 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
               element={(
                 <div className="col-12 mt-3">
                   <LineChartCard
-                    title="Visits during time"
+                    title={t('Visits during time')}
                     visits={normalizedVisits}
                     highlightedVisits={highlightedVisits}
                     highlightedLabel={highlightedLabel}
@@ -185,21 +187,21 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
               element={(
                 <>
                   <div className={classNames('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
-                    <DoughnutChartCard title="Operating systems" stats={os} />
+                    <DoughnutChartCard title={t('Operating systems')} stats={os} />
                   </div>
                   <div className={classNames('mt-3 col-lg-6', { 'col-xl-4': !isOrphanVisits })}>
-                    <DoughnutChartCard title="Browsers" stats={browsers} />
+                    <DoughnutChartCard title={t('Browsers')} stats={browsers} />
                   </div>
                   <div className={classNames('mt-3', { 'col-xl-4': !isOrphanVisits, 'col-lg-6': isOrphanVisits })}>
                     <SortableBarChartCard
-                      title="Referrers"
+                      title={t('Referrers')}
                       stats={referrers}
                       withPagination={false}
                       highlightedStats={highlightedVisitsToStats(highlightedVisits, 'referer')}
                       highlightedLabel={highlightedLabel}
                       sortingItems={{
-                        name: 'Referrer name',
-                        amount: 'Visits amount',
+                        name: t('Referrer name'),
+                        amount: t('Visits amount'),
                       }}
                       onClick={highlightVisitsForProp('referer')}
                     />
@@ -207,13 +209,13 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
                   {isOrphanVisits && (
                     <div className="mt-3 col-lg-6">
                       <SortableBarChartCard
-                        title="Visited URLs"
+                        title={t('Visited URLs')}
                         stats={visitedUrls}
                         highlightedLabel={highlightedLabel}
                         highlightedStats={highlightedVisitsToStats(highlightedVisits, 'visitedUrl')}
                         sortingItems={{
-                          visitedUrl: 'Visited URL',
-                          amount: 'Visits amount',
+                          visitedUrl: t('Visited URL'),
+                          amount: t('Visits amount'),
                         }}
                         onClick={highlightVisitsForProp('visitedUrl')}
                       />
@@ -229,29 +231,29 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
                 <>
                   <div className="col-lg-6 mt-3">
                     <SortableBarChartCard
-                      title="Countries"
+                      title={t('Countries')}
                       stats={countries}
                       highlightedStats={highlightedVisitsToStats(highlightedVisits, 'country')}
                       highlightedLabel={highlightedLabel}
                       sortingItems={{
-                        name: 'Country name',
-                        amount: 'Visits amount',
+                        name: t('Country name'),
+                        amount: t('Visits amount'),
                       }}
                       onClick={highlightVisitsForProp('country')}
                     />
                   </div>
                   <div className="col-lg-6 mt-3">
                     <SortableBarChartCard
-                      title="Cities"
+                      title={t('Cities')}
                       stats={cities}
                       highlightedStats={highlightedVisitsToStats(highlightedVisits, 'city')}
                       highlightedLabel={highlightedLabel}
                       extraHeaderContent={(activeCities) => mapLocations.length > 0 && (
-                        <OpenMapModalBtn modalTitle="Cities" locations={mapLocations} activeCities={activeCities} />
+                        <OpenMapModalBtn modalTitle={t('Cities')} locations={mapLocations} activeCities={activeCities} />
                       )}
                       sortingItems={{
-                        name: 'City name',
-                        amount: 'Visits amount',
+                        name: t('City name'),
+                        amount: t('Visits amount'),
                       }}
                       onClick={highlightVisitsForProp('city')}
                     />
@@ -294,7 +296,7 @@ export const VisitsStats: FC<VisitsStatsProps> = ({
                   updatable
                   disabled={loading}
                   initialDateRange={initialInterval.current}
-                  defaultText="All visits"
+                  defaultText={t('All visits')}
                   onDatesChange={setDates}
                 />
               </div>

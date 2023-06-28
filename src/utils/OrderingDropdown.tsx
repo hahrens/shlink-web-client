@@ -5,6 +5,7 @@ import { toPairs } from 'ramda';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import type { Order, OrderDir } from './helpers/ordering';
 import { determineOrderDir } from './helpers/ordering';
+import { useTranslation } from 'react-i18next';
 import './OrderingDropdown.scss';
 
 export interface OrderingDropdownProps<T extends string = string> {
@@ -19,6 +20,7 @@ export interface OrderingDropdownProps<T extends string = string> {
 export function OrderingDropdown<T extends string = string>(
   { items, order, onChange, isButton = true, right = false, prefixed = true }: OrderingDropdownProps<T>,
 ) {
+  const { t } = useTranslation();
   const handleItemClick = (fieldKey: T) => () => {
     const newOrderDir = determineOrderDir(fieldKey, order.field, order.dir);
     onChange(newOrderDir ? fieldKey : undefined, newOrderDir);
@@ -34,9 +36,9 @@ export function OrderingDropdown<T extends string = string>(
           'btn-sm p-0': !isButton,
         })}
       >
-        {!isButton && <>Order by</>}
-        {isButton && !order.field && <i>Order by...</i>}
-        {isButton && order.field && <>{prefixed && 'Order by: '}{items[order.field]} - <small>{order.dir ?? 'DESC'}</small></>}
+        {!isButton && <>{t('Order by')}</>}
+        {isButton && !order.field && <i>{t('Order by...')}</i>}
+        {isButton && order.field && <>{prefixed && t('Order by: ')}{items[order.field]} - <small>{order.dir ?? 'DESC'}</small></>}
       </DropdownToggle>
       <DropdownMenu
         end={right}

@@ -69,8 +69,8 @@ export const EditDomainRedirectsModal: FC<EditDomainRedirectsModalProps> = (
           </FormGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="link" type="button" onClick={toggle}>Cancel</Button>
-          <Button color="primary">Save</Button>
+          <Button color="link" type="button" onClick={toggle}>Abbrechen</Button>
+          <Button color="primary">Speichern</Button>
         </ModalFooter>
       </form>
     </Modal>

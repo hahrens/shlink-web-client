@@ -8,6 +8,7 @@ import { ShlinkApiError } from '../../api/ShlinkApiError';
 import type { TimeoutToggle } from '../../utils/helpers/hooks';
 import { Result } from '../../utils/Result';
 import type { ShortUrlCreation } from '../reducers/shortUrlCreation';
+import { useTranslation } from 'react-i18next';
 import './CreateShortUrlResult.scss';
 
 export interface CreateShortUrlResultProps {
@@ -19,6 +20,7 @@ export interface CreateShortUrlResultProps {
 export const CreateShortUrlResult = (useTimeoutToggle: TimeoutToggle) => (
   { creation, resetCreateShortUrl, canBeClosed = false }: CreateShortUrlResultProps,
 ) => {
+  const { t } = useTranslation();
   const [showCopyTooltip, setShowCopyTooltip] = useTimeoutToggle();
   const { error, saved } = creation;
 
@@ -30,7 +32,7 @@ export const CreateShortUrlResult = (useTimeoutToggle: TimeoutToggle) => (
     return (
       <Result type="error" className="mt-3">
         {canBeClosed && <FontAwesomeIcon icon={closeIcon} className="float-end pointer" onClick={resetCreateShortUrl} />}
-        <ShlinkApiError errorData={creation.errorData} fallbackMessage="An error occurred while creating the URL :(" />
+        <ShlinkApiError errorData={creation.errorData} fallbackMessage={t('An error occurred while creating the URL :(')} />
       </Result>
     );
   }
@@ -44,7 +46,7 @@ export const CreateShortUrlResult = (useTimeoutToggle: TimeoutToggle) => (
   return (
     <Result type="success" className="mt-3">
       {canBeClosed && <FontAwesomeIcon icon={closeIcon} className="float-end pointer" onClick={resetCreateShortUrl} />}
-      <span><b>Great!</b> The short URL is <b>{shortUrl}</b></span>
+      <span><b>{t('Great!')}</b> {t('The short URL is')} <b>{shortUrl}</b></span>
 
       <CopyToClipboard text={shortUrl} onCopy={setShowCopyTooltip}>
         <button
@@ -52,7 +54,7 @@ export const CreateShortUrlResult = (useTimeoutToggle: TimeoutToggle) => (
           id="copyBtn"
           type="button"
         >
-          <FontAwesomeIcon icon={copyIcon} /> Copy
+          <FontAwesomeIcon icon={copyIcon} /> {t('Copy')}
         </button>
       </CopyToClipboard>
 
